@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public enum BitOrder
+public static class PermutationRule
 {
-    LsbFirst,
-    MsbFirst
-}
+        public enum BitOrder
+    {
+        LsbFirst,
+        MsbFirst
+    }
 
-public enum BitNumbering
-{
-    ZeroBased,
-    OneBased
-}
-
-public static class PBox
-{
+    public enum BitNumbering
+    {
+        ZeroBased,
+        OneBased
+    }
     public static byte[] Permute(byte[] input, int[] pBlock, BitOrder order, BitNumbering numbering)
     {
         if (input == null || input.Length == 0)
@@ -105,18 +104,18 @@ class Program
         byte[] input = new byte[] { 0b11000000 };
         int[] pBlock = new int[] { 6, 7, 0, 1, 2, 3, 4, 5 };
 
-        Console.WriteLine($"Проверка P-блока на валидность: {PBox.IsValidPBlock(pBlock, BitNumbering.ZeroBased)}");
+        Console.WriteLine($"Проверка P-блока на валидность: {PermutationRule.IsValidPBlock(pBlock, PermutationRule.BitNumbering.ZeroBased)}");
 
-        byte[] result = PBox.Permute(input, pBlock, BitOrder.MsbFirst, BitNumbering.ZeroBased);
+        byte[] result = PermutationRule.Permute(input, pBlock, PermutationRule.BitOrder.MsbFirst, PermutationRule.BitNumbering.ZeroBased);
 
         Console.Write("Входные данные:  ");
         PrintBytesInBinary(input);
 
-        Console.Write("Результат PBox:  ");
+        Console.Write("Результат PermutationRule:  ");
         PrintBytesInBinary(result);
 
-        int[] invertedPBlock = PBox.InvertPBlock(pBlock, BitNumbering.ZeroBased);
-        byte[] restored = PBox.Permute(result, invertedPBlock, BitOrder.MsbFirst, BitNumbering.ZeroBased);
+        int[] invertedPBlock = PermutationRule.InvertPBlock(pBlock, PermutationRule.BitNumbering.ZeroBased);
+        byte[] restored = PermutationRule.Permute(result, invertedPBlock, PermutationRule.BitOrder.MsbFirst, PermutationRule.BitNumbering.ZeroBased);
 
         Console.Write("После восстановления: ");
         PrintBytesInBinary(restored);
